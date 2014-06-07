@@ -44,7 +44,6 @@ function! s:Qfsigns(clearonly)
             endif
         endif
     endfor
-    unlet a:qfrow
 endfunction
 
 command! -nargs=0 QfsignsUpdate call s:Qfsigns(0)
