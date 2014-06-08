@@ -51,11 +51,6 @@ command! -nargs=0 QfsignsClear  call s:Qfsigns(1)
 command! -nargs=0 QfsignsStart let g:qfsigns_enabled = 1 | QfsignsUpdate
 command! -nargs=0 QfsignsStop  let g:qfsigns_enabled = 0 | QfsignsClear
 
-augroup Qfsigns
-    autocmd!
-    autocmd BufWritePost * :QfsignsUpdate
-augroup END
-
 let &cpo = s:save_cpo
 unlet s:save_cpo
 
