@@ -1,7 +1,5 @@
 #vim-qfsigns
 
----
-
 This Vim plugin is plugin supporting [watchdogs](https://github.com/osyo-manga/vim-watchdogs).  
 If [watchdogs](https://github.com/osyo-manga/vim-watchdogs) check syntax error, this plugin mark syntax error lines.
 

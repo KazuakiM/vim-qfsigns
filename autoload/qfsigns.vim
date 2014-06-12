@@ -3,7 +3,7 @@ set cpo&vim
 
 let g:qfsigns#Enabled = ! exists('g:qfsigns#Enabled') ? 1 : g:qfsigns#Enabled
 
-function! qfsigns#Setup()
+function! qfsigns#Setup() "{{{
     let g:qfsigns#Config = [
     \    {
     \        'id'    : '5050',
@@ -40,9 +40,9 @@ function! qfsigns#Setup()
         execute a:sign_dfine_string
     endfor
     unlet a:qfsigns_config_row
-endfunction
+endfunction "}}}
 
-function! qfsigns#Qfsigns(clearonly)
+function! qfsigns#Qfsigns(clearonly) "{{{
     "Setup
     if !exists('g:qfsigns#Config')
         call qfsigns#Setup()
@@ -80,7 +80,7 @@ function! qfsigns#Qfsigns(clearonly)
             endif
         endif
     endfor
-endfunction
+endfunction "}}}
 
 let &cpo = s:save_cpo
 unlet s:save_cpo
