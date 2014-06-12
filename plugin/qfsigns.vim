@@ -1,5 +1,5 @@
 if &cp || (exists('g:loaded_qfsigns') && g:loaded_qfsigns)
-  finish
+    finish
 endif
 let g:loaded_qfsigns = 1
 
