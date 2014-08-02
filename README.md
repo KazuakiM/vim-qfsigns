@@ -30,6 +30,8 @@ NeoBundle 'KazuakiM/vim-qfsigns'
 
 " If syntax error, cursor is moved at line setting sign.
 let g:qfsigns#AutoJump = 1
+" If syntax error, view split and cursor is moved at line setting sign.
+let g:qfsigns#AutoJump = 2
 ```
 
 ###Usage

@@ -1,29 +1,27 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let g:qfsigns#Enabled   = ! exists('g:qfsigns#Enabled')  ? 1 : g:qfsigns#Enabled
-let g:qfsigns#AutoJump  = ! exists('g:qfsigns#AutoJump') ? 0 : g:qfsigns#AutoJump
+let g:qfsigns#Enabled  = ! exists('g:qfsigns#Enabled')  ? 1 : g:qfsigns#Enabled
+let g:qfsigns#AutoJump = ! exists('g:qfsigns#AutoJump') ? 0 : g:qfsigns#AutoJump
+let g:qfsigns#Splitted = ! exists('g:qfsigns#Splitted') ? 0 : g:qfsigns#Splitted
 
 function! qfsigns#Setup() "{{{
     let g:qfsigns#Config = [
     \    {
     \        'id'    : '5050',
     \        'name'  : 'QFError',
-    \        'icon'  : '',
     \        'linehl': 'SpellBad',
     \        'text'  : 'E>',
     \        'texthl': 'SpellBad',},
     \    {
     \        'id'    : '5051',
     \        'name'  : 'QFWarning',
-    \        'icon'  : '',
     \        'linehl': 'SpellLocal',
     \        'text'  : 'W>',
     \        'texthl': 'SpellLocal',},
     \    {
     \        'id'    : '5052',
     \        'name'  : 'QFInfo',
-    \        'icon'  : '',
     \        'linehl': 'SpellRare',
     \        'text'  : 'I>',
     \        'texthl': 'SpellRare',},]
@@ -32,11 +30,7 @@ function! qfsigns#Setup() "{{{
         let a:sign_dfine_string = 'sign define '.get(a:qfsigns_config_row,'name')
         \    .' linehl='.get(a:qfsigns_config_row,'linehl')
         \    .' texthl='.get(a:qfsigns_config_row,'texthl')
-        if(get(a:qfsigns_config_row,'icon') !=# '')
-            let a:sign_dfine_string = a:sign_dfine_string.' icon='.get(a:qfsigns_config_row,'icon')
-        else
-            let a:sign_dfine_string = a:sign_dfine_string.' text='.get(a:qfsigns_config_row,'text')
-        endif
+        \    .' text='.get(a:qfsigns_config_row,'text')
         "PP a:sign_dfine_string
         execute a:sign_dfine_string
     endfor
@@ -59,6 +53,7 @@ function! qfsigns#Qfsigns(clearonly) "{{{
     endif
     "Setting signs
     let a:bufnr = bufnr('%')
+    let a:qfsignsSplitFlag = 0
     for a:qfrow in getqflist()
         if a:qfrow.bufnr == a:bufnr
             let a:qfsigns_config_key = 'QFError'
@@ -75,6 +70,7 @@ function! qfsigns#Qfsigns(clearonly) "{{{
                         \    .' line='.a:qfrow.lnum
                         \    .' name='.get(a:qfsigns_config_row,'name')
                         \    .' file='.expand('%:p')
+                        let a:qfsignsSplitFlag = 1
                     endif
                 endfor
                 unlet a:qfsigns_config_row
@@ -82,8 +78,18 @@ function! qfsigns#Qfsigns(clearonly) "{{{
         endif
     endfor
     " Cursor is moved at line setting sign.
-    if g:qfsigns#AutoJump == 1
-        QfsingsJunmp
+    if a:qfsignsSplitFlag == 1
+        if g:qfsigns#AutoJump == 1
+            QfsingsJunmp
+        elseif g:qfsigns#AutoJump == 2
+            if g:qfsigns#Splitted == 0
+                split
+                let g:qfsigns#Splitted = 1
+            endif
+            QfsingsJunmp
+        endif
+    else
+        let g:qfsigns#Splitted = 0
     endif
 endfunction "}}}
 
