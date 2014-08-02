@@ -27,12 +27,23 @@ let g:quickrun_config = {
 NeoBundle 'osyo-manga/shabadou.vim'
 NeoBundle 'osyo-manga/vim-watchdogs'
 NeoBundle 'KazuakiM/vim-qfsigns'
+
+" If syntax error, cursor is moved at line setting sign.
+let g:qfsigns#AutoJump = 1
 ```
 
-## Author
+###Usage
+
+sings jump functions supported.
+
+```vim
+:QfsingsJunmp
+```
+
+##Author
 
 [KazuakiM](https://github.com/KazuakiM/)
 
-## License
+##License
 
 This software is released under the MIT License, see LICENSE.

@@ -1,7 +1,8 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-let g:qfsigns#Enabled = ! exists('g:qfsigns#Enabled') ? 1 : g:qfsigns#Enabled
+let g:qfsigns#Enabled   = ! exists('g:qfsigns#Enabled')  ? 1 : g:qfsigns#Enabled
+let g:qfsigns#AutoJump  = ! exists('g:qfsigns#AutoJump') ? 0 : g:qfsigns#AutoJump
 
 function! qfsigns#Setup() "{{{
     let g:qfsigns#Config = [
@@ -49,7 +50,7 @@ function! qfsigns#Qfsigns(clearonly) "{{{
     endif
     "Remove signs
     for a:qfsigns_config_row in g:qfsigns#Config
-        execute 'sign unplace '.get(a:qfsigns_config_row,'id').' file='.expand('%:p')
+        execute 'sign unplace '.get(a:qfsigns_config_row,'id').' buffer='.winbufnr(0)
     endfor
     unlet a:qfsigns_config_row
     "Only delete signs
@@ -79,6 +80,17 @@ function! qfsigns#Qfsigns(clearonly) "{{{
                 unlet a:qfsigns_config_row
             endif
         endif
+    endfor
+    " Cursor is moved at line setting sign.
+    if g:qfsigns#AutoJump == 1
+        QfsingsJunmp
+    endif
+endfunction "}}}
+
+function! qfsigns#Jump() "{{{
+    for a:qfsigns_config_row in g:qfsigns#Config
+        execute 'sign jump '.get(a:qfsigns_config_row,'id').' buffer='.winbufnr(0)
+        return
     endfor
 endfunction "}}}
 
