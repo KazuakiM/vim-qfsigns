@@ -1,11 +1,11 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
+"variable {{{
 let g:qfsigns#Enabled   = ! exists('g:qfsigns#Enabled')   ? 1 : g:qfsigns#Enabled
 let g:qfsigns#AutoJump  = ! exists('g:qfsigns#AutoJump')  ? 0 : g:qfsigns#AutoJump
-let g:qfsigns#ErrorFlag = ! exists('g:qfsigns#ErrorFlag') ? 0 : g:qfsigns#ErrorFlag
-
-function! qfsigns#Setup() "{{{
+let g:qfsigns#ErrorFlag = 0
+if !exists('g:qfsigns#Config')
     let g:qfsigns#Config = {
     \    'id'    : '5050',
     \    'name'  : 'QFError',
@@ -17,13 +17,10 @@ function! qfsigns#Setup() "{{{
     \    .' texthl='.      get(g:qfsigns#Config,'texthl')
     \    .' text='.        get(g:qfsigns#Config,'text')
     lockvar! g:qfsigns#Config
-endfunction "}}}
+endif
+"}}}
 
 function! qfsigns#Qfsigns(clearonly) "{{{
-    "Setup
-    if !exists('g:qfsigns#Config')
-        call qfsigns#Setup()
-    endif
     "Remove signs
     execute 'sign unplace '.get(g:qfsigns#Config,'id').' buffer='.winbufnr(0)
     "Only delete signs
