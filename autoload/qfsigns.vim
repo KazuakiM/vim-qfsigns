@@ -52,6 +52,10 @@ function! qfsigns#Jump() "{{{
     endif
 endfunction "}}}
 
+function! qfsigns#Error() "{{{
+    echohl ErrorMsg | echomsg "QfsingsJunmp is typo. Please update QfsingsJunmp to QfsignsJunmp. So sorry." | echohl None
+endfunction "}}}
+
 let &cpo = s:save_cpo
 unlet s:save_cpo
 
