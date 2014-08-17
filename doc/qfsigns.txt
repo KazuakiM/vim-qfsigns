@@ -43,7 +43,7 @@ COMMANDS					*qfsigns-commands*
 
 						*:QfsignsUpdate*
 :QfsignsUpdate
-	Execute |qfsigns#Qfsigns()| program with param = 1.
+	Execute |qfsigns#Qfsigns()| program with parameter = 1.
 
 						*:QfsignsClear*
 :QfsignsClear
