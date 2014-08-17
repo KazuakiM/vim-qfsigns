@@ -39,7 +39,7 @@ let g:qfsigns#AutoJump = 2
 sings jump functions supported.
 
 ```vim
-:QfsingsJunmp
+:QfsignsJunmp
 ```
 
 ##Author

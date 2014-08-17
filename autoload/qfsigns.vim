@@ -6,16 +6,8 @@ let g:qfsigns#Enabled   = ! exists('g:qfsigns#Enabled')   ? 1 : g:qfsigns#Enable
 let g:qfsigns#AutoJump  = ! exists('g:qfsigns#AutoJump')  ? 0 : g:qfsigns#AutoJump
 let g:qfsigns#ErrorFlag = 0
 if !exists('g:qfsigns#Config')
-    let g:qfsigns#Config = {
-    \    'id'    : '5050',
-    \    'name'  : 'QFError',
-    \    'linehl': 'SpellBad',
-    \    'text'  : '>>',
-    \    'texthl': 'SpellBad',}
-    execute 'sign define '.get(g:qfsigns#Config,'name')
-    \    .' linehl='.      get(g:qfsigns#Config,'linehl')
-    \    .' texthl='.      get(g:qfsigns#Config,'texthl')
-    \    .' text='.        get(g:qfsigns#Config,'text')
+    let g:qfsigns#Config = {'id': '5050', 'name': 'QFError',}
+    execute 'sign define '.get(g:qfsigns#Config,'name').' linehl=SpellBad texthl=SpellBad text=>>'
     lockvar! g:qfsigns#Config
 endif
 "}}}
@@ -28,15 +20,12 @@ function! qfsigns#Qfsigns(clearonly) "{{{
         return
     endif
     "Setting signs
-    let a:bufnr            = bufnr('%')
+    let a:bufnr             = bufnr('%')
     let a:qfsignsErrorCheck = 0
     for a:qfrow in getqflist()
         if a:qfrow.bufnr == a:bufnr
             if a:qfrow.lnum > 0
-                execute 'sign place '.get(g:qfsigns#Config,'id')
-                \    .' line='.       a:qfrow.lnum
-                \    .' name='.       get(g:qfsigns#Config,'name')
-                \    .' buffer='.     winbufnr(0)
+                execute 'sign place '.get(g:qfsigns#Config,'id').' line='.a:qfrow.lnum.' name='.get(g:qfsigns#Config,'name').' buffer='.winbufnr(0)
                 let a:qfsignsErrorCheck = 1
             endif
         endif
@@ -44,12 +33,12 @@ function! qfsigns#Qfsigns(clearonly) "{{{
     " Cursor is moved at line setting sign.
     if a:qfsignsErrorCheck == 1
         if g:qfsigns#AutoJump == 1
-            QfsingsJunmp
+            QfsignsJunmp
         elseif g:qfsigns#AutoJump == 2
             if g:qfsigns#ErrorFlag == 0
                 split
             endif
-            QfsingsJunmp
+            QfsignsJunmp
         endif
         let g:qfsigns#ErrorFlag = 1
     else

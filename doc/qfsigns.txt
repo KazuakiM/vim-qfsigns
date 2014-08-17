@@ -1,0 +1,67 @@
+*qfsigns.txt* Set signs at quickfix error list.
+
+Author:  KazuakiM <twitter@NanohaAsOnKai>
+License: MIT License.
+
+==============================================================================
+CONTENTS					*qfsigns-contents*
+
+INTRODUCTION			|qfsigns-introduction|
+INTERFACE			|qfsigns-interface|
+  VARIABLES			  |qfsigns-variables|
+  COMMANDS			  |qfsigns-commands|
+  FUNCTIONS			  |qfsigns-functions|
+
+==============================================================================
+INTRODUCTION					*qfsigns-introduction*
+
+This Vim plugin is plugin supporting watchdogs.
+If watchdogs check syntax error, this plugin mark syntax error lines.
+
+==============================================================================
+INTERFACE					*qfsigns-interface*
+
+------------------------------------------------------------------------------
+VARIABLES					*qfsigns-variables*
+
+						*g:qfsigns#Config*
+g:qfsigns#Config = {'id': 'unique_id', 'name': 'sign-alias-group',}
+	This variable is customized sign setting.
+
+>
+	let g:qfsigns#Config = {'id': '5051', 'name': 'QFRare',}
+	sign define QFRare linehl=SpellRare texthl=SpellRare text=R>
+<
+
+g:qfsigns#AutoJump = {value}			*g:qfsigns#AutoJump*
+	This variable is auto jump function setting.
+	If {value} is 1, cursor is moved at line setting sign.
+	And if {value} is 2, view split and cursor is moved at line setting sign.
+
+------------------------------------------------------------------------------
+COMMANDS					*qfsigns-commands*
+
+						*:QfsignsUpdate*
+:QfsignsUpdate
+	Execute |qfsigns#Qfsigns()| program with param = 1.
+
+						*:QfsignsClear*
+:QfsignsClear
+	Execute |qfsigns#Qfsigns()| program with parameter = 2.
+
+						*:QfsignsJunmp*
+:QfsignsJunmp
+	Execute |qfsigns#Jump()| program.
+
+------------------------------------------------------------------------------
+FUNCTIONS					*qfsigns-functions*
+
+qfsigns#Qfsigns({value})			*qfsigns#Qfsigns()*
+	Execute setting or clearing signs at quickfix error list(This function is main method).
+        If {value} is 1, set signs. And if {value} is 0, clear signs.
+
+qfsigns#Jump()					*qfsigns#Jump()*
+	Execute signs jump function.
+
+==============================================================================
+vim:tw=78:ts=8:ft=help:norl
