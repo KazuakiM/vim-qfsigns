@@ -41,16 +41,13 @@ g:qfsigns#AutoJump = {value}			*g:qfsigns#AutoJump*
 ------------------------------------------------------------------------------
 COMMANDS					*qfsigns-commands*
 
-						*:QfsignsUpdate*
-:QfsignsUpdate
+:QfsignsUpdate					*:QfsignsUpdate*
 	Execute |qfsigns#Qfsigns()| program with parameter = 1.
 
-						*:QfsignsClear*
-:QfsignsClear
+:QfsignsClear					*:QfsignsClear*
 	Execute |qfsigns#Qfsigns()| program with parameter = 2.
 
-						*:QfsignsJunmp*
-:QfsignsJunmp
+:QfsignsJunmp					*:QfsignsJunmp*
 	Execute |qfsigns#Jump()| program.
 
 ------------------------------------------------------------------------------
@@ -58,7 +55,7 @@ FUNCTIONS					*qfsigns-functions*
 
 qfsigns#Qfsigns({value})			*qfsigns#Qfsigns()*
 	Execute setting or clearing signs at quickfix error list(This function is main method).
-        If {value} is 1, set signs. And if {value} is 0, clear signs.
+	If {value} is 1, set signs. And if {value} is 0, clear signs.
 
 qfsigns#Jump()					*qfsigns#Jump()*
 	Execute signs jump function.
