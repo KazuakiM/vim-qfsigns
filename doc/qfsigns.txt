@@ -17,8 +17,8 @@ USAGE				|qfsigns-usage|
 ==============================================================================
 INTRODUCTION					*qfsigns-introduction*
 
-This Vim plugin is plugin supporting watchdogs.
-If watchdogs check syntax error, this plugin mark syntax error lines.
+This Vim plugin is plugin supporting watchdogs.If watchdogs check syntax
+error, this plugin mark syntax error lines.
 
 ==============================================================================
 INTERFACE					*qfsigns-interface*
@@ -36,9 +36,9 @@ g:qfsigns#Config = {'id': 'unique_id', 'name': 'sign-alias-group',}
 <
 
 g:qfsigns#AutoJump = {value}			*g:qfsigns#AutoJump*
-	This variable is auto jump function setting.
-	If {value} is 1, cursor is moved at line setting sign.
-	And if {value} is 2, view split and cursor is moved at line setting sign.
+	This variable is auto jump function setting. If {value} is 1, cursor
+	is moved at line setting sign. And if {value} is 2, view split and
+	cursor is moved at line setting sign.
 
 ------------------------------------------------------------------------------
 COMMANDS					*qfsigns-commands*
@@ -56,8 +56,9 @@ COMMANDS					*qfsigns-commands*
 FUNCTIONS					*qfsigns-functions*
 
 qfsigns#Qfsigns({value})			*qfsigns#Qfsigns()*
-	Execute setting or clearing signs at quickfix error list(This function is main method).
-	If {value} is 1, set signs. And if {value} is 0, clear signs.
+	Execute setting or clearing signs at quickfix error list(This function
+	is main method). If {value} is 1, set signs. And if {value} is 0
+	, clear signs.
 
 qfsigns#Jump()					*qfsigns#Jump()*
 	Execute signs jump function.
