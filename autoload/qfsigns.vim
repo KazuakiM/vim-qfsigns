@@ -4,7 +4,6 @@ set cpo&vim
 "variable {{{
 let g:qfsigns#Enabled   = ! exists('g:qfsigns#Enabled')   ? 1 : g:qfsigns#Enabled
 let g:qfsigns#AutoJump  = ! exists('g:qfsigns#AutoJump')  ? 0 : g:qfsigns#AutoJump
-let g:qfsigns#ErrorFlag = 0
 if !exists('g:qfsigns#Config')
     let g:qfsigns#Config = {'id': '5050', 'name': 'QFError',}
     execute 'sign define '.get(g:qfsigns#Config,'name').' linehl=SpellBad texthl=SpellBad text=>>'
@@ -13,6 +12,8 @@ endif
 "}}}
 
 function! qfsigns#Qfsigns(clearonly) "{{{
+    "variable buffer
+    let b:qfsignsErrorFlag = ! exists('b:qfsignsErrorFlag') ? 0 : b:qfsignsErrorFlag
     "Remove signs
     execute 'sign unplace '.get(g:qfsigns#Config,'id').' buffer='.winbufnr(0)
     "Only delete signs
@@ -35,19 +36,19 @@ function! qfsigns#Qfsigns(clearonly) "{{{
         if g:qfsigns#AutoJump == 1
             QfsignsJunmp
         elseif g:qfsigns#AutoJump == 2
-            if g:qfsigns#ErrorFlag == 0
+            if b:qfsignsErrorFlag == 0
                 split
             endif
             QfsignsJunmp
         endif
-        let g:qfsigns#ErrorFlag = 1
+        let b:qfsignsErrorFlag = 1
     else
-        let g:qfsigns#ErrorFlag = 0
+        let b:qfsignsErrorFlag = 0
     endif
 endfunction "}}}
 
 function! qfsigns#Jump() "{{{
-    if g:qfsigns#ErrorFlag == 1
+    if b:qfsignsErrorFlag == 1
         execute 'sign jump '.get(g:qfsigns#Config,'id').' buffer='.winbufnr(0)
     endif
 endfunction "}}}
