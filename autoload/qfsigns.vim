@@ -11,11 +11,16 @@ if !exists('g:qfsigns#Config')
 endif
 "}}}
 
+let s:sign_num = 0
+
 function! qfsigns#Qfsigns(clearonly) "{{{
     "variable buffer
     let b:qfsignsErrorFlag = ! exists('b:qfsignsErrorFlag') ? 0 : b:qfsignsErrorFlag
     "Remove signs
-    execute 'sign unplace '.get(g:qfsigns#Config,'id').' buffer='.winbufnr(0)
+    for i in range(s:sign_num)
+        execute 'sign unplace '.(get(g:qfsigns#Config,'id')+i).' buffer='.winbufnr(0)
+    endfor
+    let s:sign_num = 0
     "Only delete signs
     if g:qfsigns#Enabled == 0 || a:clearonly == 1
         return
@@ -26,7 +31,8 @@ function! qfsigns#Qfsigns(clearonly) "{{{
     for a:qfrow in getqflist()
         if a:qfrow.bufnr == a:bufnr
             if a:qfrow.lnum > 0
-                execute 'sign place '.get(g:qfsigns#Config,'id').' line='.a:qfrow.lnum.' name='.get(g:qfsigns#Config,'name').' buffer='.winbufnr(0)
+                execute 'sign place '.(get(g:qfsigns#Config,'id')+s:sign_num).' line='.a:qfrow.lnum.' name='.get(g:qfsigns#Config,'name').' buffer='.winbufnr(0)
+                let s:sign_num = s:sign_num+1
                 let a:qfsignsErrorCheck = 1
             endif
         endif
