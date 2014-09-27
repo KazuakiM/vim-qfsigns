@@ -11,51 +11,64 @@ if !exists('g:qfsigns#Config')
 endif
 "}}}
 
-let s:sign_num = 0
 
 function! qfsigns#Qfsigns(clearonly) "{{{
     "variable buffer
-    let b:qfsignsErrorFlag = ! exists('b:qfsignsErrorFlag') ? 0 : b:qfsignsErrorFlag
+    let b:qfsignsErrorIndex = ! exists('b:qfsignsErrorIndex') ? -1 : b:qfsignsErrorIndex
+    let b:qfsignsMaxIndex   = ! exists('b:qfsignsMaxIndex')   ? 0  : b:qfsignsMaxIndex
     "Remove signs
-    for i in range(s:sign_num)
-        execute 'sign unplace '.(get(g:qfsigns#Config,'id')+i).' buffer='.winbufnr(0)
+    for a:index in range(b:qfsignsMaxIndex)
+        execute 'sign unplace '.(get(g:qfsigns#Config,'id') + a:index).' buffer='.winbufnr(0)
     endfor
-    let s:sign_num = 0
+    let b:qfsignsMaxIndex = 0
     "Only delete signs
     if g:qfsigns#Enabled == 0 || a:clearonly == 1
         return
     endif
     "Setting signs
-    let a:bufnr             = bufnr('%')
-    let a:qfsignsErrorCheck = 0
+    let a:bufnr    = bufnr('%')
+    let a:errorFnr = []
     for a:qfrow in getqflist()
         if a:qfrow.bufnr == a:bufnr
             if a:qfrow.lnum > 0
-                execute 'sign place '.(get(g:qfsigns#Config,'id')+s:sign_num).' line='.a:qfrow.lnum.' name='.get(g:qfsigns#Config,'name').' buffer='.winbufnr(0)
-                let s:sign_num = s:sign_num+1
-                let a:qfsignsErrorCheck = 1
+                if count(a:errorFnr, a:qfrow.lnum) == 0
+                    execute 'sign place '.(get(g:qfsigns#Config,'id') + b:qfsignsMaxIndex).' line='.a:qfrow.lnum.' name='.get(g:qfsigns#Config,'name').' buffer='.winbufnr(0)
+                    let b:qfsignsMaxIndex += 1
+                    call add(a:errorFnr, a:qfrow.lnum)
+                endif
             endif
         endif
     endfor
     " Cursor is moved at line setting sign.
-    if a:qfsignsErrorCheck == 1
+    if b:qfsignsMaxIndex > 0
         if g:qfsigns#AutoJump == 1
+            let b:qfsignsErrorIndex = 0
             QfsignsJunmp
         elseif g:qfsigns#AutoJump == 2
-            if b:qfsignsErrorFlag == 0
+            if b:qfsignsErrorIndex == -1
                 split
             endif
+            let b:qfsignsErrorIndex = 0
             QfsignsJunmp
+        else
+            let b:qfsignsErrorIndex = 0
         endif
-        let b:qfsignsErrorFlag = 1
     else
-        let b:qfsignsErrorFlag = 0
+        let b:qfsignsErrorIndex = -1
     endif
 endfunction "}}}
 
 function! qfsigns#Jump() "{{{
-    if b:qfsignsErrorFlag == 1
-        execute 'sign jump '.get(g:qfsigns#Config,'id').' buffer='.winbufnr(0)
+    "variable buffer
+    let b:qfsignsErrorIndex = ! exists('b:qfsignsErrorIndex') ? -1 : b:qfsignsErrorIndex
+    "jump at signs
+    if b:qfsignsErrorIndex >= 0
+        execute 'sign jump '.(get(g:qfsigns#Config,'id') + b:qfsignsErrorIndex).' buffer='.winbufnr(0)
+        if b:qfsignsErrorIndex < (b:qfsignsMaxIndex -1)
+            let b:qfsignsErrorIndex += 1
+        else
+            let b:qfsignsErrorIndex  = 0
+        endif
     endif
 endfunction "}}}
 
