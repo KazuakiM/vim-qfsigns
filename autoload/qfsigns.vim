@@ -10,15 +10,13 @@ if !exists('g:qfsigns#Config')
     lockvar! g:qfsigns#Config
 endif
 "}}}
-
-
 function! qfsigns#Qfsigns(clearonly) "{{{
     "variable buffer
     let b:qfsignsErrorIndex = ! exists('b:qfsignsErrorIndex') ? -1 : b:qfsignsErrorIndex
     let b:qfsignsMaxIndex   = ! exists('b:qfsignsMaxIndex')   ? 0  : b:qfsignsMaxIndex
     "Remove signs
-    for a:index in range(b:qfsignsMaxIndex)
-        execute 'sign unplace '.(get(g:qfsigns#Config,'id') + a:index).' buffer='.winbufnr(0)
+    for l:index in range(b:qfsignsMaxIndex)
+        execute 'sign unplace '.(get(g:qfsigns#Config,'id') + l:index).' buffer='.winbufnr(0)
     endfor
     let b:qfsignsMaxIndex = 0
     "Only delete signs
@@ -26,17 +24,13 @@ function! qfsigns#Qfsigns(clearonly) "{{{
         return
     endif
     "Setting signs
-    let a:bufnr    = bufnr('%')
-    let a:errorFnr = []
-    for a:qfrow in getqflist()
-        if a:qfrow.bufnr == a:bufnr
-            if a:qfrow.lnum > 0
-                if count(a:errorFnr, a:qfrow.lnum) == 0
-                    execute 'sign place '.(get(g:qfsigns#Config,'id') + b:qfsignsMaxIndex).' line='.a:qfrow.lnum.' name='.get(g:qfsigns#Config,'name').' buffer='.winbufnr(0)
-                    let b:qfsignsMaxIndex += 1
-                    call add(a:errorFnr, a:qfrow.lnum)
-                endif
-            endif
+    let l:bufnr    = bufnr('%')
+    let l:errorFnr = []
+    for l:qfrow in getqflist()
+        if l:qfrow.bufnr ==# l:bufnr && 0 < l:qfrow.lnum && count(l:errorFnr, l:qfrow.lnum) ==# 0
+            execute 'sign place '.(get(g:qfsigns#Config,'id') + b:qfsignsMaxIndex).' line='.l:qfrow.lnum.' name='.get(g:qfsigns#Config,'name').' buffer='.winbufnr(0)
+            let b:qfsignsMaxIndex += 1
+            call add(l:errorFnr, l:qfrow.lnum)
         endif
     endfor
     " Cursor is moved at line setting sign.
@@ -57,7 +51,6 @@ function! qfsigns#Qfsigns(clearonly) "{{{
         let b:qfsignsErrorIndex = -1
     endif
 endfunction "}}}
-
 function! qfsigns#Jump() "{{{
     "variable buffer
     let b:qfsignsErrorIndex = ! exists('b:qfsignsErrorIndex') ? -1 : b:qfsignsErrorIndex
