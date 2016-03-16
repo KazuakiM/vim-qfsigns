@@ -2,11 +2,12 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 "variable {{{
-let g:qfsigns#Enabled   = ! exists('g:qfsigns#Enabled')   ? 1 : g:qfsigns#Enabled
-let g:qfsigns#AutoJump  = ! exists('g:qfsigns#AutoJump')  ? 0 : g:qfsigns#AutoJump
+let g:qfsigns#Enabled    = ! exists('g:qfsigns#Enabled')    ? 1    : g:qfsigns#Enabled
+let g:qfsigns#AutoJump   = ! exists('g:qfsigns#AutoJump')   ? 0    : g:qfsigns#AutoJump
+let g:qfsigns#SignSymbol = ! exists('g:qfsigns#SignSymbol') ? '>>' : g:qfsigns#SignSymbol
 if !exists('g:qfsigns#Config')
     let g:qfsigns#Config = {'id': '5050', 'name': 'QFError',}
-    execute 'sign define '.get(g:qfsigns#Config,'name').' linehl=SpellBad texthl=SpellBad text=>>'
+    execute 'sign define '.get(g:qfsigns#Config,'name').' linehl=SpellBad texthl=SpellBad text='.g:qfsigns#SignSymbol
     lockvar! g:qfsigns#Config
 endif
 "}}}
